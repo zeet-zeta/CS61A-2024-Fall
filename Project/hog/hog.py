@@ -180,7 +180,9 @@ def always_roll(n):
     """
     assert n >= 0 and n <= 10
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+    def strategy(score, opponent_score):
+        return n
+    return strategy
     # END PROBLEM 6
 
 
@@ -211,7 +213,11 @@ def is_always_roll(strategy, goal=GOAL):
     False
     """
     # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+    for i in range(0, goal):
+        for j in range(0, goal):
+            if strategy(i, j) != strategy(0, 0):
+                return False
+    return True
     # END PROBLEM 7
 
 
@@ -227,7 +233,12 @@ def make_averaged(original_function, times_called=1000):
     3.0
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    def averaged(*args):
+        sum = 0
+        for _ in range(times_called):
+            sum += original_function(*args)
+        return sum / times_called
+    return averaged
     # END PROBLEM 8
 
 
@@ -240,7 +251,14 @@ def max_scoring_num_rolls(dice=six_sided, times_called=1000):
     1
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    max_score = 0
+    num_rolls = 0
+    for i in range(1, 11):
+        cur_score = make_averaged(roll_dice, times_called)(i, dice)
+        if cur_score > max_score:
+            max_score = cur_score
+            num_rolls = i
+    return num_rolls
     # END PROBLEM 9
 
 
@@ -285,14 +303,19 @@ def boar_strategy(score, opponent_score, threshold=11, num_rolls=6):
     points, and returns NUM_ROLLS otherwise. Ignore score and Sus Fuss.
     """
     # BEGIN PROBLEM 10
-    return num_rolls  # Remove this line once implemented.
+    boar_score = boar_brawl(score, opponent_score)
+    if boar_score >= threshold:
+        return 0
+    return num_rolls
     # END PROBLEM 10
 
 
 def sus_strategy(score, opponent_score, threshold=11, num_rolls=6):
     """This strategy returns 0 dice when your score would increase by at least threshold."""
     # BEGIN PROBLEM 11
-    return num_rolls  # Remove this line once implemented.
+    if sus_points(boar_brawl(score, opponent_score) + score) - score >= threshold:
+        return 0
+    return num_rolls
     # END PROBLEM 11
 
 
