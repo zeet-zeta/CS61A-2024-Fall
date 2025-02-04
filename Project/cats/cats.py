@@ -476,3 +476,5 @@ def run(*args):
     args = parser.parse_args()
     if args.t:
         run_typing_test(args.topic)
+
+# 通过装饰器实现cache
