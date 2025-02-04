@@ -157,7 +157,12 @@ def memo_diff(diff_function):
 
     def memoized(typed, source, limit):
         # BEGIN PROBLEM EC
-        "*** YOUR CODE HERE ***"
+        immutable_args = (typed, source)
+        if immutable_args not in cache or cache[immutable_args][1] < limit:
+            result = diff_function(typed, source, limit)
+            cache[immutable_args] = (result, limit)
+            return result
+        return cache[immutable_args][0]
         # END PROBLEM EC
 
     return memoized
@@ -168,6 +173,7 @@ def memo_diff(diff_function):
 ###########
 
 
+@memo
 def autocorrect(typed_word, word_list, diff_function, limit):
     """Returns the element of WORD_LIST that has the smallest difference
     from TYPED_WORD based on DIFF_FUNCTION. If multiple words are tied for the smallest difference,
@@ -231,6 +237,7 @@ def furry_fixes(typed, source, limit):
     # END PROBLEM 6
 
 
+@memo_diff
 def minimum_mewtations(typed, source, limit):
     """A diff function for autocorrect that computes the edit distance from TYPED to SOURCE.
     This function takes in a string TYPED, a string SOURCE, and a number LIMIT.
@@ -313,7 +320,15 @@ def report_progress(typed, source, user_id, upload):
     0.2
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    count = 0
+    for i in range(len(typed)):
+        if typed[i] == source[i]:
+            count += 1
+        else:
+            break
+    progress = count / len(source)
+    upload({'id': user_id, 'progress': progress})
+    return progress
     # END PROBLEM 8
 
 
@@ -337,7 +352,12 @@ def time_per_word(words, timestamps_per_player):
     """
     tpp = timestamps_per_player  # A shorter name (for convenience)
     # BEGIN PROBLEM 9
-    times = []  # You may remove this line
+    times = []
+    for i in range(len(tpp)):
+        temp = []
+        for j in range(1, len(tpp[i])):
+            temp.append(tpp[i][j] - tpp[i][j - 1])
+        times.append(temp)
     # END PROBLEM 9
     return {'words': words, 'times': times}
 
@@ -364,7 +384,18 @@ def fastest_words(words_and_times):
     player_indices = range(len(times))  # contains an *index* for each player
     word_indices = range(len(words))    # contains an *index* for each word
     # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
+    fastest = []
+    for i in player_indices:
+        fastest.append([])
+    for i in word_indices:
+        min_time = float('inf')
+        min_index = 0
+        for j in player_indices:
+            if times[j][i] < min_time:
+                min_time = times[j][i]
+                min_index = j
+        fastest[min_index].append(words[i])
+    return fastest
     # END PROBLEM 10
 
 
