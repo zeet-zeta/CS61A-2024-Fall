@@ -26,7 +26,13 @@ def insert_items(s, before, after):
     >>> large_s3 is large_s
     True
     """
-    "*** YOUR CODE HERE ***"
+    i = 0
+    while i < len(s):
+        if s[i] == before:
+            s.insert(i + 1, after)
+            i += 1
+        i += 1
+    return s
 
 
 def group_by(s, fn):
@@ -40,12 +46,12 @@ def group_by(s, fn):
     {9: [-3, 3], 4: [-2, 2], 1: [-1, 1], 0: [0]}
     """
     grouped = {}
-    for ____ in ____:
-        key = ____
+    for i in s:
+        key = fn(i)
         if key in grouped:
-            ____
+            grouped[key].append(i)
         else:
-            grouped[key] = ____
+            grouped[key] = [i]
     return grouped
 
 
@@ -70,7 +76,15 @@ def count_occurrences(t, n, x):
     >>> count_occurrences(v, 6, 6)
     2
     """
-    "*** YOUR CODE HERE ***"
+    count = 0
+    for _ in range(n):
+        try:
+            i = next(t)
+            if i == x:
+                count += 1
+        except StopIteration:
+            break
+    return count
 
 
 def repeated(t, k):
@@ -93,7 +107,20 @@ def repeated(t, k):
     2
     """
     assert k > 1
-    "*** YOUR CODE HERE ***"
+    count = 1
+    prev = next(t)
+    while True:
+        try:
+            i = next(t)
+            if i == prev:
+                count += 1
+                if count == k:
+                    return i
+            else:
+                count = 1
+                prev = i
+        except StopIteration:
+            break
 
 
 def sprout_leaves(t, leaves):
@@ -129,7 +156,10 @@ def sprout_leaves(t, leaves):
           1
           2
     """
-    "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return tree(label(t), [tree(leaf) for leaf in leaves])
+    else:
+        return tree(label(t), [sprout_leaves(b, leaves) for b in branches(t)])
 
 
 def partial_reverse(s, start):
@@ -144,7 +174,11 @@ def partial_reverse(s, start):
     >>> a
     [1, 2, 7, 6, 5, 3, 4]
     """
-    "*** YOUR CODE HERE ***"
+    end = len(s) - 1
+    while start < end:
+        s[start], s[end] = s[end], s[start]
+        start += 1
+        end -= 1
 
 
 
