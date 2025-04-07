@@ -1,3 +1,4 @@
+# 分词
 """The scheme_tokens module provides functions tokenize_line and tokenize_lines
 for converting (iterators producing) strings into (iterators producing) lists
 of tokens.  A token may be:

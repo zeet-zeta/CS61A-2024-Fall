@@ -1,3 +1,4 @@
+# Pair类以及nil类
 class Pair:
     """A pair has two instance attributes: first and rest. rest must be a Pair or nil
 
